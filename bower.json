@@ -1,0 +1,19 @@
+{
+  "name": "thing",
+  "version": "0.0.1",
+  "authors": [
+    "Alex Lampiris <alexlambiris@wiley.com>"
+  ],
+  "main": "index.html",
+  "license": "none",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "event-source-polyfill": "~0.0.6"
+  }
+}

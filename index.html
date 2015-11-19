@@ -1,0 +1,67 @@
+<!doctype html>
+<html class="no-js" lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>SSE test</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="bower_components/event-source-polyfill/eventsource.js"></script>
+  </head>
+  <body>
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <script>
+
+      var log = function (message) {
+        var logElm = window.document.createElement('div');
+        logElm.innerHTML = message;
+        window.document.getElementsByTagName('body')[0].appendChild(logElm);
+        if (window.console) {
+          window.console.log(message);
+        }
+      };
+
+      // If no window.EventSource is defined in the current environment or if it is not appropriate
+      //  (e.g. it has no 'withCredentials' support) the event-source-polyfill will go ahead and set
+      //  window.EventSource. The original event source - if any - can still be accessed as
+      //  window.NativeEventSource. So either we're running on the native event-source or
+      //  window.NativeEventSource is defined
+      if (window.hasOwnProperty('NativeEventSource')) {
+        log('Running on a polyfilled event-source');
+      } else {
+        log('Running on the native event-source');
+      }
+
+      //
+
+      var eventSource = new window.EventSource('/event-stream');
+
+      eventSource.addEventListener('message', function (event) {
+        log('received message');
+        // log(event);
+      });
+
+      eventSource.addEventListener('tick', function (event) {
+        log('received tick ' + event.lastEventId);
+        // log(event);
+      });
+
+      eventSource.addEventListener('open', function (event) {
+        log('Connection was opened');
+        // log(event);
+      });
+
+      eventSource.addEventListener('error', function (event) {
+        log('An error occured on connection');
+        if (event.readyState === EventSource.CLOSED) {
+          log('Connection was closed');
+        }
+        // log(event);
+      });
+
+    </script>
+  </body>
+</html>
